@@ -22,11 +22,16 @@ default[:duply][:gpg_key_server] = 'keys.gnupg.net'
 default[:duply][:gpg_key_name] = "#{Chef::Config[:node_name]} Backup"
 default[:duply][:gpg_key_email] = ''
 
-default[:duply][:source] = '/'
-default[:duply][:include] = ['/home']
-default[:duply][:exclude] = ['**/**']
+default[:duply][:mount_under] = '/mnt'
 
-default[:duply][:schedule] = '0 1 * * *'
+# The minimum amount of space that must exist on the target VG (in bytes)
+default[:duply][:min_free] = '256000'
+
+# The amount of free VG space to consume for the snapshot
+default[:duply][:snapshot_size] = '100%FREE'
+
+# The name of the databag to use
+default[:duply][:databag] = 'duply'
 
 default[:duply][:s3][:region] = 'eu-west-1'
 default[:duply][:s3][:bucket] = ''

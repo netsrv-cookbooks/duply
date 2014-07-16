@@ -1,0 +1,7 @@
+name             'duply-test'
+maintainer       'NetSrv Consulting Ltd'
+maintainer_email 'cwoodcock@netsrv-consulting.com'
+license          'Apache License, Version 2.0'
+description      'Integration test configuration for the Duply cookbook'
+long_description 'Integration test configuration for the Duply cookbook'
+version          '0.1.0'

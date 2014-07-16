@@ -1,7 +1,8 @@
 # Duply
 A Chef cookbook to install and configures Duply and Duplicity for secure backups of Linux nodes.
 
-Currently only Amazon S3 is supported as a back-end.
+## Limitations
+* Only Amazon S3 is supported as a back-end.
 
 ## Usage
 You will need to set some attributes before using this cookbook:
@@ -14,10 +15,31 @@ You will need to set some attributes before using this cookbook:
 
 Backups will be encrypted with GPG and uploaded to *bucket/node_name* (e.g. myorg-backups/web1).
 
+## Backing up non-LVM systems
+TODO: Add mode attribute and logic
+
+## Backing up LVM Systems
+You need to configure a databag with the appropriate configuration.
+
+You can change the name of the bag via the `[:duply][:databag]` attribute, it defaults to *duply*.
+
+### Example Databag
+{
+  "id" : "myjobname",
+  "jobs" : [{
+   "id": "root",
+   "target_vg": "myvg",
+   "target_lv": "root",
+   "schedule": "0 1 * * *",
+   "includes": ["/home"],
+   "excludes": ["**/**"]
+   }]
+}
+
 ### Matching Files
 This is configured via two attributes:
 
-* `[:duply][:exclude]` - an array of string paths to exclude, defaults to ['/']
+* `[:duply][:exclude]` - an array of string paths to exclude, defaults to ['**/**']
 * `[:duply][:include]` - an array of string paths to include, defaults to ['/home']
 
 ## Security

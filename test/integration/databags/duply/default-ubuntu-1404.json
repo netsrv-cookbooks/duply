@@ -1,0 +1,11 @@
+{
+  "id" : "default",
+  "jobs" : [{
+   "id": "root",
+   "target_vg": "vagrant-vg",
+   "target_lv": "root",
+   "schedule": "0 1 * * *",
+   "includes": ["/home"],
+   "excludes": ["**/**"]
+   }]
+}

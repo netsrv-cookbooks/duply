@@ -21,7 +21,8 @@ end
 passphrase = (0...16).map { (65 + rand(26)).chr }.join
 
 # TODO: do not expose passphrase
-node.default[:duply][:gpg_pw] = passphrase
+node.normal[:duply][:gpg_pw] = passphrase
+node.save
 
 template "#{Chef::Config[:file_cache_path]}/gpgscript" do
   action :create

@@ -3,8 +3,8 @@
 #
 
 <% @includes.each do |glob| %>
-+ <%= glob %>
++ <%= @source %>/<%= glob.gsub(/^\//, "") %>
 <% end %>
 <% @excludes.each do |glob| %>
-- <%= glob %>
+- <%= @source %>/<%= glob.gsub(/^\//, "") %>
 <% end %>

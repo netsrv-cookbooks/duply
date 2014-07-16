@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# PE size in bytes
+pe_size=`vgdisplay -c | awk -F':' '{print $13}'`
+pe_free=`vgdisplay -c | awk -F':' '{print $16}'`
+free_space=$((pe_size * pe_free))
+
+if [ $free_space -lt <%= @min_free %> ]; then
+  echo "Not enough unallocated space in volume group."
+  echo "Wanted at least $((<%= @min_free %>/1024))MB, $((free_space/1024))MB is available"
+  exit 1
+fi
+
+lvcreate -n backup_<%= @name %> -s /dev/<%= @target_vg %>/<%= @target_lv %> -l <%= @snapshot_size %>
+
+# do backup
+mount -o ro /dev/<%= @target_vg %>/backup_<%= @name %> <%= @mount_point %>
+duply <%= @name %> backup
+
+# Cleanup
+umount <%= @mount_point %>
+lvremove -f /dev/<%= @target_vg %>/backup_<%= @name %>
