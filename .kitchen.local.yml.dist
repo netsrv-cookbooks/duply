@@ -1,0 +1,15 @@
+suites:
+- name: default
+  run_list: 
+  - recipe[duply::haveged]
+  - recipe[duply]
+  attributes:
+    authorization:
+      sudo:
+        users: ['vagrant']
+    duply:
+      gpg_key_email: 'changeme'
+      s3:
+        aws_access_key: 'changeme'
+        aws_secret_key: 'changeme'
+        bucket:         'changeme'

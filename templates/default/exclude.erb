@@ -1,0 +1,10 @@
+#
+# Managed by Chef - local changes may be overwritten
+#
+
+<% @includes.each do |glob| %>
++ <%= glob %>
+<% end %>
+<% @excludes.each do |glob| %>
+- <%= glob %>
+<% end %>

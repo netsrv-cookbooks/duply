@@ -1,0 +1,21 @@
+# Duply Configuration
+#
+# Managed by Chef - local changes may be overwritten
+#
+
+# The GPG key ID to use
+GPG_KEY='<%= @gpg_key_id %>'
+GPG_PW='<%= @passphrase %>'
+
+# This allows the key we import to be used for encryption without further verification
+GPG_OPTS='--trust-model always'
+
+# Where the backups will live
+TARGET='<%= @target %>'
+<% unless node[:duply][:s3][:use_iam_profile] %>
+TARGET_USER='<%= @username %>'
+TARGET_PASS='<%= @password %>'
+<% end %>
+
+# The base of our backup tree, see /etc/duply/s3/exclude 
+SOURCE='<%= @source %>'
