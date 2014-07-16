@@ -106,6 +106,10 @@ More advanced policies are possible if you are in EC2 - e.g. locking down the no
     - Rubocop will check for Ruby-specific style errors
     - Test Kitchen will run and converge the recipes
 
+This cookbook supplies its own Vagrant template (see test/templates/Vagrantfile.erb) this is so that a
+second disk can be attached to the VMs which enables testing of the LXC snapshot.  Currently only VirtualBox
+is configured.
+
 ## License & Authors
 - Author:: Colin Woodcock (<cwoodcock@netsrv-consulting.com>)
 
