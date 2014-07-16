@@ -98,6 +98,7 @@ duply['jobs'].each do |job|
     action :create
     source 'conf.erb'
     mode '0600'
+    sensitive true
     variables lazy {
       {
         gpg_key_id: node[:duply][:gpg_key_id],

@@ -24,9 +24,12 @@ passphrase = (0...16).map { (65 + rand(26)).chr }.join
 node.normal[:duply][:gpg_pw] = passphrase
 node.save
 
-template "#{Chef::Config[:file_cache_path]}/gpgscript" do
+template 'gpgscript' do
+  path "#{Chef::Config[:file_cache_path]}/gpgscript"
   action :create
   source 'genkey.erb'
+  backup false
+  sensitive true
   variables(
     name: node[:duply][:gpg_key_name],
     email: node[:duply][:gpg_key_email],
@@ -48,6 +51,7 @@ ruby_block 'generate gpg key' do
     # Extract the id part
     node.normal[:duply][:gpg_key_id] = keystr[9...keystr.length]
   end
+  notifies :delete, 'template[gpgscript]'
 end
 
 log('generated key') do
