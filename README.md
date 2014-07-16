@@ -15,26 +15,27 @@ You will need to set some attributes before using this cookbook:
 
 Backups will be encrypted with GPG and uploaded to *bucket/node_name* (e.g. myorg-backups/web1).
 
-## Backing up non-LVM systems
-TODO: Add mode attribute and logic
-
-## Backing up LVM Systems
 You need to configure a databag with the appropriate configuration.
 
 You can change the name of the bag via the `[:duply][:databag]` attribute, it defaults to *duply*.
 
-### Example Databag
+If the type is missing then the backup will be normal.  If it is set to *lvm* then a snapshot will
+be created, mounted and the backup generated from there.
+
+```
 {
   "id" : "myjobname",
   "jobs" : [{
    "id": "root",
-   "target_vg": "myvg",
-   "target_lv": "root",
+   "type": "lvm",
+   "target_vg": "my_volume_group",  	(lvm only)
+   "target_lv": "my_logical_volume",	(lvm only)
    "schedule": "0 1 * * *",
    "includes": ["/home"],
    "excludes": ["**/**"]
    }]
 }
+```
 
 ### Matching Files
 This is configured via two attributes:

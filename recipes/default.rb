@@ -48,25 +48,50 @@ duply = data_bag_item(node[:duply][:databag], Chef::Config[:node_name])
 
 duply['jobs'].each do |job|
   
-  # libraries/hash.rb contains the magic that allows us to access
-  # the json data via dots which cuts down on the cruft
+  Chef::Log.info("Job: #{job['id']}")
+  Chef::Log.info("Excludes: #{job['excludes']}")
+  Chef::Log.info("Includes: #{job['includes']}")
   
-  log("Job: #{job['id']}")
+  # ---------------------------------------------------------------- #
+  # --- Setup some variables that we will use in resources later --- #
+  # ---------------------------------------------------------------- #
+  mountpoint = File.join(node[:duply][:mount_under], "duply_#{job['id']}")
+  target = "s3://s3-#{region}.amazonaws.com/#{bucket}/#{Chef::Config[:node_name]}/#{job['id']}"
+  script_vars = { name: job['id'] }
+  
+  case job['type']
+  when 'lvm'
+    # When backing up LVM we mount the snapshot
+    base = mountpoint
+    
+    # Make sure base ends with a trailing /
+    base << '/' unless base.end_with?('/')
+    
+    script_template = 'backup_lvm.erb'
+    script_vars.merge!({
+      snapshot_size: node[:duply][:snapshot_size],
+      target_vg: job['target_vg'],
+      target_lv: job['target_lv'],
+      mount_point: mountpoint,
+      min_free: node[:duply][:min_free]
+    })
+  else
+    # When backing up directly we need to be relative to root
+    base = '/'
+    script_template = 'backup_default.erb'
+  end
 
-  # Configure Duply
+  # -- End var config
+  
   directory "/etc/duply/#{job['id']}" do
     action :create
     recursive true
   end
-
-  mountpoint = File.join(node[:duply][:mount_under], "duply_#{job['id']}")
   
   directory mountpoint do
     action :create
     recursive true
   end
-
-  target = "s3://s3-#{region}.amazonaws.com/#{bucket}/#{Chef::Config[:node_name]}/#{job['id']}"
 
   # Using lazy variables because the GPG key may not be known at compile time
   template "/etc/duply/#{job['id']}/conf" do
@@ -80,33 +105,26 @@ duply['jobs'].each do |job|
         target: target,
         username: node[:duply][:s3][:aws_access_key],
         password: node[:duply][:s3][:aws_secret_key],
-        source: mountpoint
+        source: base
       }
     }
-  end  
-
+  end
+  
   template "/etc/duply/#{job['id']}/exclude" do
     action :create
     source 'exclude.erb'
     variables(
-      source: mountpoint,
+      prefix: base == '/' ? '' : base,
       excludes: job['excludes'],
       includes: job['includes']
     )
   end
-
+  
   template "/usr/local/sbin/backup_#{job['id']}" do
     action :create
-    source 'backup.erb'
+    source script_template
     mode '0755'
-    variables(
-      name: job['id'],
-      snapshot_size: node[:duply][:snapshot_size],
-      target_vg: job['target_vg'],
-      target_lv: job['target_lv'],
-      mount_point: mountpoint,
-      min_free: node[:duply][:min_free]
-    )
+    variables(script_vars)
   end
 
   # Setup cron

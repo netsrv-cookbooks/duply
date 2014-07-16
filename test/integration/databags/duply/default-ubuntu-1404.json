@@ -2,6 +2,7 @@
   "id" : "default",
   "jobs" : [{
    "id": "root",
+   "type" : "lvm",
    "target_vg": "vagrant-vg",
    "target_lv": "root",
    "schedule": "0 1 * * *",
