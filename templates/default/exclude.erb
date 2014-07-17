@@ -3,8 +3,12 @@
 #
 
 <% @includes.each do |glob| %>
+  <% unless glob.empty? %>
 + <%= @prefix %><%= @prefix.empty? ? glob : glob.gsub(/^\//, "") %>
+  <% end %>
 <% end %>
 <% @excludes.each do |glob| %>
+  <% unless glob.empty? %>
 - <%= @prefix %><%= @prefix.empty? ? glob : glob.gsub(/^\//, "")  %>
+  <% end %>
 <% end %>
