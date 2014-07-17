@@ -7,7 +7,7 @@ A Chef cookbook to install and configures Duply and Duplicity for secure backups
 ## Usage
 You will need to set some attributes before using this cookbook:
 
-* If `[:duply][:s3][:use_iam_profile]` is false, you must provide valid AWS credentials (using IAM is strongly recommended):
+* If `[:duply][:s3][:use_iam_profile]` is false (default), you must provide valid credentials via attributes:
   * `[:duply][:s3][:aws_access_key]` must be set to your access key.
   * `[:duply][:s3][:aws_secret_key]` must be set to your secret key.
 * `[:duply][:s3][:bucket]` must be set to the name of the bucket you wish you use (e.g. myorg-backups).
@@ -54,18 +54,18 @@ The keys must be on root's default keyring.
 ### Generating keys automatically
 A GPG key pair will automatically be created for you if `[:duply][:gpg_key_id]` is empty (default). 
 
-* The name of the GPG key owner will default to *"<Node Name> Backup"*
+* The name of the GPG key owner will default to "*node_name* Backup"
   * Can be configured via `[:duply][:gpg_key_name]`
 * You must configure the email address to use by configuring the attribute `[:duply][:gpg_key_email]`.
 
-**Important:**
+#### Important
 
 * Make sure you copy the generate public and secret keys onto secure storage
   * The keys can be found in /etc/duply/s3/*.asc
 * Make sure you record the secret key passphrase and keep it somewhere safe
   * It can be viewed in the logs and via the node attribute `[:duply][:gpg_pw]`
 
-If either the secret key or the passphrase is lost, you will not be able to restore a backup.
+**If either the secret key or the passphrase is lost, you will not be able to restore a backup.**
 
 ## Duplicity Options
 
