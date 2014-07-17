@@ -29,9 +29,9 @@ be created, mounted and the backup generated from there.
 
 ```
 {
-  "id" : "myjobname",
+  "id" : "mynodename",
   "jobs" : [{
-   "id": "root",
+   "id": "myjobname",
    "type": "lvm",
    "target_vg": "my_volume_group",  	(lvm only)
    "target_lv": "my_logical_volume",	(lvm only)
