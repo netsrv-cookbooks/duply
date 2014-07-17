@@ -74,10 +74,10 @@ A GPG key pair will automatically be created for you if `[:duply][:gpg_key_id]` 
 
 ## Duplicity Options
 
-`[:duply][:params]` is an array of option strings relevant to S3.  Defaults to:
+`[:duply][:params]` is an array of option strings passed to duplicity.  Defaults to:
 
-* `--s3-use-rrs` - uses reduced redundancy storage.
-* `--s3-use-new-style` - use new-style subdomain bucket addressing.
+* `--s3-use-rrs` - uses S3 reduced redundancy storage.
+* `--s3-use-new-style` - use new-style subdomain bucket addressing for S3.
 
 ## Notes
 ### Key Generation in Virtualised Environments
