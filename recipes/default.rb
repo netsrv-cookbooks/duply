@@ -106,7 +106,8 @@ duply['jobs'].each do |job|
         target: target,
         username: node[:duply][:s3][:aws_access_key],
         password: node[:duply][:s3][:aws_secret_key],
-        source: base
+        source: base,
+        params: node[:duply][:params]
       }
     }
   end

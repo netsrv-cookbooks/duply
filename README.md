@@ -67,6 +67,13 @@ A GPG key pair will automatically be created for you if `[:duply][:gpg_key_id]` 
 
 If either the secret key or the passphrase is lost, you will not be able to restore a backup.
 
+## Duplicity Options
+
+`[:duply][:params]` is an array of option strings relevant to S3.  Defaults to:
+
+* `--s3-use-rrs` - uses reduced redundancy storage.
+* `--s3-use-new-style` - use new-style subdomain bucket addressing.
+
 ## Notes
 ### Key Generation in Virtualised Environments
 Due to GPG's reliance on /dev/random (a blocking random number generator) the run can become blocked waiting for

@@ -14,6 +14,9 @@
 # limitations under the License.
 #
 
+# The additional parameters passed to Duplicity
+default[:duply][:params] = ['--s3-use-new-style','--s3-use-rrs']
+
 default[:duply][:gpg_key_id] = ''
 default[:duply][:gpg_pw] = ''
 default[:duply][:gpg_key_server] = 'keys.gnupg.net'
