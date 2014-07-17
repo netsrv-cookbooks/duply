@@ -123,10 +123,9 @@ More advanced policies are possible if you are in EC2 - e.g. locking down the no
 
         $ bundle install
 
-4. **Write tests**
-5. Make your changes/patches/fixes, committing appropriately
-6. Copy .kitchen.local.yml.dist to .kitchen.local.yml and edit it, setting attributes appropriately
-7. Run the tests:
+4. Make your changes/patches/fixes, committing appropriately
+5. Copy .kitchen.local.yml.dist to .kitchen.local.yml and edit it, setting attributes appropriately
+6. Run the tests:
     - `bundle exec foodcritic -f any .`
     - `bundle exec rubocop`
     - `bundle exec kitchen test`
@@ -136,9 +135,9 @@ More advanced policies are possible if you are in EC2 - e.g. locking down the no
     - Rubocop will check for Ruby-specific style errors
     - Test Kitchen will run and converge the recipes
 
-This cookbook supplies its own Vagrant template (see test/templates/Vagrantfile.erb) this is so that a
-second disk can be attached to the VMs which enables testing of the LXC snapshot.  Currently only VirtualBox
-is configured.
+This cookbook supplies its own Vagrant template (see test/templates/Vagrantfile.erb) so that a
+second disk can be attached to the VMs.  This enables testing of the LXC snapshot feature.  As a result 
+only VirtualBox is currently supported for kitchen tests.
 
 ## License & Authors
 - Author:: Colin Woodcock (<cwoodcock@netsrv-consulting.com>)
