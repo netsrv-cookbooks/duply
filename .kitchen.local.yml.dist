@@ -1,6 +1,8 @@
 suites:
 - name: default
-  run_list: 
+	data_bags_path: <%= File.expand_path('./test/integration/databags') %>
+  run_list:
+  - recipe[duply-test]
   - recipe[duply::haveged]
   - recipe[duply]
   attributes:
