@@ -1,8 +1,13 @@
 # Duply
 A Chef cookbook to install and configures Duply and Duplicity for secure backups of Linux nodes.
 
+In LVM mode the cookbook will mount a snapshot of the logical volume and backup from there, minimising downtime.
+
+It can also backup non-LVM systems, but care should be taken to ensure the file system remains consistent.
+
 ## Limitations
 * Only Amazon S3 is supported as a back-end.
+* Pre/post scripts must be supplied via other means (e.g. a wrapper cookbook)
 
 ## Usage
 You will need to set some attributes before using this cookbook:
